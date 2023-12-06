@@ -1,0 +1,302 @@
+openapi: 3.0.0
+info:
+  title: API de Usuarios
+  description: API para la gestión de usuarios en una plataforma de videojuegos
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/Devgram/APIUsuarios/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/Devgram/Practica2/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /usuarios:
+    get:
+      tags:
+      - Usuarios
+      summary: Obtener todos los usuarios
+      operationId: obtenerTodosUsuarios
+      responses:
+        "200":
+          description: Lista de usuarios obtenida correctamente
+      x-swagger-router-controller: Usuarios
+    post:
+      tags:
+      - Usuarios
+      summary: Registrar un nuevo usuario
+      operationId: registrarUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        "201":
+          description: Usuario registrado exitosamente
+      x-swagger-router-controller: Usuarios
+  /usuarios/login:
+    post:
+      tags:
+      - Usuarios
+      summary: Iniciar sesión de usuario
+      operationId: iniciarSesionUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/usuarios_login_body'
+        required: true
+      responses:
+        "200":
+          description: Sesión iniciada correctamente
+      x-swagger-router-controller: Usuarios
+  /usuarios/{id_usuario}:
+    get:
+      tags:
+      - Usuarios
+      summary: Obtener un usuario por ID
+      operationId: obtenerUsuarioPorId
+      parameters:
+      - name: id_usuario
+        in: path
+        description: "ID del usuario a consultar, actualizar o eliminar"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Usuario obtenido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+      x-swagger-router-controller: Usuarios
+    put:
+      tags:
+      - Usuarios
+      summary: Actualizar un usuario por ID
+      operationId: actualizarUsuarioPorId
+      parameters:
+      - name: id_usuario
+        in: path
+        description: "ID del usuario a consultar, actualizar o eliminar"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        "200":
+          description: Usuario actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+      x-swagger-router-controller: Usuarios
+    delete:
+      tags:
+      - Usuarios
+      summary: Eliminar un usuario por ID
+      operationId: eliminarUsuarioPorId
+      parameters:
+      - name: id_usuario
+        in: path
+        description: "ID del usuario a consultar, actualizar o eliminar"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: Usuario eliminado correctamente
+      x-swagger-router-controller: Usuarios
+  /usuarios/{id_usuario}/privado:
+    get:
+      tags:
+      - Usuarios
+      summary: Obtener información privada de un usuario por ID
+      description: "Retorna la información privada del usuario, incluyendo la cuenta\
+        \ bancaria y la dirección."
+      operationId: obtenerInfoPrivadaUsuarioPorId
+      parameters:
+      - name: id_usuario
+        in: path
+        description: ID del usuario cuya información privada se desea obtener
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Información privada del usuario obtenida correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario_privado'
+      x-swagger-router-controller: Usuarios
+  /usuarios/{id_usuario}/estadisticas:
+    get:
+      tags:
+      - Usuarios
+      summary: Obtener estadísticas de juego de un usuario por ID
+      description: Retorna las estadísticas de juego del usuario especificado por
+        su ID.
+      operationId: obtenerEstadisticasJuegoUsuarioPorId
+      parameters:
+      - name: id_usuario
+        in: path
+        description: ID del usuario cuyas estadísticas de juego se desean obtener
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Estadísticas de juego del usuario obtenidas correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estadisticas_juego'
+      x-swagger-router-controller: Usuarios
+components:
+  schemas:
+    Usuario:
+      required:
+      - contraseña
+      - email
+      - id_usuario
+      - nombre
+      type: object
+      properties:
+        id_usuario:
+          type: string
+        nombre:
+          type: string
+        email:
+          type: string
+          format: email
+        contraseña:
+          type: string
+      example:
+        id_usuario: id_usuario
+        nombre: nombre
+        email: ""
+        contraseña: contraseña
+    Usuario_privado:
+      required:
+      - cuenta_bancaria
+      - email
+      - id_usuario
+      - nombre
+      - password
+      type: object
+      properties:
+        id_usuario:
+          type: string
+        nombre:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        tipo_subscripcion:
+          type: string
+          enum:
+          - normal
+          - premium
+        metodo_pago:
+          type: string
+          description: Metodo de pago del usuario del usuario
+        direccion:
+          $ref: '#/components/schemas/Usuario_privado_direccion'
+      example:
+        password: password
+        id_usuario: id_usuario
+        direccion:
+          codigo_postal: codigo_postal
+          ciudad: ciudad
+          calle: calle
+        tipo_subscripcion: normal
+        metodo_pago: metodo_pago
+        nombre: nombre
+        email: ""
+    Estadisticas_juego:
+      required:
+      - logros
+      - partidas_ganadas
+      - partidas_jugadas
+      - partidas_perdidas
+      - puntuacion_maxima
+      - tiempo_jugado
+      type: object
+      properties:
+        partidas_jugadas:
+          type: integer
+          description: Número total de partidas jugadas
+        partidas_ganadas:
+          type: integer
+          description: Número total de partidas ganadas
+        partidas_perdidas:
+          type: integer
+          description: Número total de partidas perdidas
+        puntuacion_maxima:
+          type: integer
+          description: Puntuación más alta obtenida en una partida
+        tiempo_jugado:
+          type: number
+          description: Tiempo total jugado en horas
+        logros:
+          type: array
+          description: Lista de logros desbloqueados
+          items:
+            type: string
+      example:
+        tiempo_jugado: 5.637376656633329
+        partidas_ganadas: 6
+        partidas_perdidas: 1
+        logros:
+        - logros
+        - logros
+        partidas_jugadas: 0
+        puntuacion_maxima: 5
+    usuarios_login_body:
+      required:
+      - contraseña
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        contraseña:
+          type: string
+    Usuario_privado_direccion:
+      type: object
+      properties:
+        calle:
+          type: string
+        ciudad:
+          type: string
+        codigo_postal:
+          type: string
+      example:
+        codigo_postal: codigo_postal
+        ciudad: ciudad
+        calle: calle
