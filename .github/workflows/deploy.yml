@@ -1,39 +1,25 @@
-name: Deploy
+name: Swagger
+
 on:
   push:
-    branches: main
-  pull_request:
-    branches: main
+    branches:
+      - main
 
 jobs:
   deploy:
-    name: Deploy
     runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write # Needed for auth with Deno Deploy
-      contents: read # Needed to clone the repository
-
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
-
-      - name: Install Deno
-        uses: denoland/setup-deno@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Swagger ui action
+        id: swagger-ui-action
+        uses: pjoc-team/swagger-ui-action@v0.0.2
         with:
-          deno-version: v1.x
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+          dir: './'
+          pattern: '*.json'
+          debug: 'true'
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          node-version: lts/*
-
-      - name: Build step
-        run: "npm install" # 📝 Update the build command(s) if necessary
-
-      - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
-        with:
-          project: "api-usuarios"
-          entrypoint: "index.js" # 📝 Update the entrypoint if necessary
-          root: "." # 📝 Update the root if necessary
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: swagger-ui
