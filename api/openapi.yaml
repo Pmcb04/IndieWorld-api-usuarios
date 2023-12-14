@@ -4,10 +4,8 @@ info:
   description: API para la gestión de usuarios en una plataforma de videojuegos
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/Devgram/APIUsuarios/1.0.0
-  description: SwaggerHub API Auto Mocking
-- url: https://virtserver.swaggerhub.com/Devgram/Practica2/1.0.0
-  description: SwaggerHub API Auto Mocking
+- url: https://indie-world-api-usuarios.vercel.app/Devgram/APIUsuarios/1.0.0/usuarios
+  description: Vercel Server Produccion
 paths:
   /usuarios:
     get:

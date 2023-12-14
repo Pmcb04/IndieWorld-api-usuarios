@@ -8,6 +8,13 @@ module.exports.actualizarUsuarioPorId = function actualizarUsuarioPorId (req, re
     .then(function (response) {
       utils.writeJson(res, response);
     })
+    .catch(function(error) {
+      if (error.status === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
+    })
     .catch(function (response) {
       utils.writeJson(res, response);
     });
@@ -17,6 +24,13 @@ module.exports.eliminarUsuarioPorId = function eliminarUsuarioPorId (req, res, n
   Usuarios.eliminarUsuarioPorId(id_usuario)
     .then(function (response) {
       utils.writeJson(res, response);
+    })
+    .catch(function(error) {
+      if (error.status === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
     })
     .catch(function (response) {
       utils.writeJson(res, response);
@@ -28,6 +42,13 @@ module.exports.iniciarSesionUsuario = function iniciarSesionUsuario (req, res, n
     .then(function (response) {
       utils.writeJson(res, response);
     })
+    .catch(function(error) {
+      if (error.status === 401) {
+        res.status(401).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
+    })
     .catch(function (response) {
       utils.writeJson(res, response);
     });
@@ -37,6 +58,13 @@ module.exports.obtenerEstadisticasJuegoUsuarioPorId = function obtenerEstadistic
   Usuarios.obtenerEstadisticasJuegoUsuarioPorId(id_usuario)
     .then(function (response) {
       utils.writeJson(res, response);
+    })
+    .catch(function(error) {
+      if (error.status === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
     })
     .catch(function (response) {
       utils.writeJson(res, response);
@@ -48,6 +76,13 @@ module.exports.obtenerInfoPrivadaUsuarioPorId = function obtenerInfoPrivadaUsuar
     .then(function (response) {
       utils.writeJson(res, response);
     })
+    .catch(function(error) {
+      if (error.status === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
+    })
     .catch(function (response) {
       utils.writeJson(res, response);
     });
@@ -57,6 +92,13 @@ module.exports.obtenerTodosUsuarios = function obtenerTodosUsuarios (req, res, n
   Usuarios.obtenerTodosUsuarios()
     .then(function (response) {
       utils.writeJson(res, response);
+    })
+    .catch(function(error) {
+      if (error.status === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
     })
     .catch(function (response) {
       utils.writeJson(res, response);
@@ -68,6 +110,13 @@ module.exports.obtenerUsuarioPorId = function obtenerUsuarioPorId (req, res, nex
     .then(function (response) {
       utils.writeJson(res, response);
     })
+    .catch(function(error) {
+      if (error.status === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
+    })
     .catch(function (response) {
       utils.writeJson(res, response);
     });
@@ -77,6 +126,13 @@ module.exports.registrarUsuario = function registrarUsuario (req, res, next, bod
   Usuarios.registrarUsuario(body)
     .then(function (response) {
       utils.writeJson(res, response);
+    })
+    .catch(function(error) {
+      if (error.status === 404) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
     })
     .catch(function (response) {
       utils.writeJson(res, response);
