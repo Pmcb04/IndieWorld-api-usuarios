@@ -138,3 +138,14 @@ module.exports.registrarUsuario = function registrarUsuario (req, res, next, bod
       utils.writeJson(res, response);
     });
 };
+
+
+module.exports.getMetrics = function getMetrics (req, res, next) {
+  Usuarios.getMetrics()
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};

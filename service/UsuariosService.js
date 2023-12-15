@@ -318,3 +318,17 @@ exports.registrarUsuario = function(body) {
     }
   });
 }
+
+
+const Prometheus = require('prom-client');
+
+/**
+ * getMetrics
+ * Endpoint to retrieve Prometheus metrics
+ * @returns {Promise} Promise object represents the handling of the metrics endpoint
+ **/
+exports.getMetrics = function() {
+  return new Promise(function(resolve, reject) {
+    resolve(Prometheus.register.metrics())
+  });
+};
